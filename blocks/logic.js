@@ -41,8 +41,8 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "type": "field_dropdown",
         "name": "BOOL",
         "options": [
-          ["%{BKY_LOGIC_BOOLEAN_TRUE}", "TRUE"],
-          ["%{BKY_LOGIC_BOOLEAN_FALSE}", "FALSE"]
+          ["%{BKY_LOGIC_BOOLEAN_FALSE}", "FALSE"],
+          ["%{BKY_LOGIC_BOOLEAN_TRUE}", "TRUE"]
         ]
       }
     ],
@@ -387,6 +387,7 @@ Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN = {
     this.reconnectChildBlocks_(valueConnections, statementConnections,
         elseStatementConnection);
   },
+
   /**
    * Store pointers to any connected child blocks.
    * @param {!Blockly.Block} containerBlock Root block in mutator.
@@ -418,6 +419,7 @@ Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN = {
           clauseBlock.nextConnection.targetBlock();
     }
   },
+  
   /**
    * Reconstructs the block with all child blocks attached.
    * @this {Blockly.Block}

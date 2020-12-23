@@ -5,8 +5,11 @@
   <title>Blockly Demo: Generating JavaScript</title>
   <script src="../../blockly_compressed.js"></script>
   <script src="../../blocks_compressed.js"></script>
+  <script src="../../my_custom/blocks.js"></script>
   <script src="../../javascript_compressed.js"></script>
+  <script src="../../my_custom/code.js"></script>
   <script src="../../msg/js/en.js"></script>
+  <script src="https://unpkg.com/@blockly/plugin-typed-variable-modal"></script>
   <style>
     body {
       background-color: #fff;
@@ -35,12 +38,31 @@
   <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
 
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+    <!-- <category name="Variables" custom="VARIABLE" colour="%{BKY_VARIABLES_HUE}"> -->
+      <!-- <block type="vars_set">
+        <field name="VAR_SET" variabletype="panda"></field>
+      </block> -->
+    <!-- </category> -->
+
+    <!-- <category name="Variables" custom="CREATE_TYPED_VARIABLE">
+    </category> -->
+    <category name="Variables" custom="VARIABLE">
+    </category>
+    <!-- <button text="A button" callbackKey="panda"></button> -->
+    <category name="Functions" custom="PROCEDURE" colour="%{BKY_PROCEDURES_HUE}">
+    </category>
+    <sep gap="100"></sep>
     <category name="Logic" colour="%{BKY_LOGIC_HUE}">
+      <block type="setup"></block>
+      <block type="loop"></block>
+      <block type="function_delay"></block>
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
       <block type="logic_negate"></block>
       <block type="logic_boolean"></block>
+      <block type="variables_get"></block>
+      <block type="variables_set"></block>
     </category>
     <category name="Loops" colour="%{BKY_LOOPS_HUE}">
       <block type="controls_repeat_ext">
@@ -63,10 +85,13 @@
       <block type="text"></block>
       <block type="text_length"></block>
       <block type="text_print"></block>
+      <block type="procedures_defnoreturn"></block>
+      <block type="procedures_defreturn"></block>
+      <block type="procedures_callnoreturn"></block>
     </category>
   </xml>
 
-  <xml xmlns="https://developers.google.com/blockly/xml" id="startBlocks" style="display: none">
+  <!-- <xml xmlns="https://developers.google.com/blockly/xml" id="startBlocks" style="display: none">
     <block type="controls_if" inline="false" x="20" y="20">
       <mutation else="1"></mutation>
       <value name="IF0">
@@ -113,19 +138,21 @@
         </block>
       </statement>
     </block>
-  </xml>
+  </xml> -->
 
   <script>
-    var demoWorkspace = Blockly.inject('blocklyDiv',
-        {media: '../../media/',
+    
+    var workspace = Blockly.inject('blocklyDiv',
+        { media: '../../media/',
          toolbox: document.getElementById('toolbox')});
-    Blockly.Xml.domToWorkspace(document.getElementById('startBlocks'),
-                               demoWorkspace);
+
+    // Blockly.Xml.domToWorkspace(document.getElementById('startBlocks'),
+    // workspace);
 
     function showCode() {
       // Generate JavaScript code and display it.
       Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-      var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
+      var code = Blockly.JavaScript.workspaceToCode(workspace);
       alert(code);
     }
 
@@ -134,7 +161,7 @@
       window.LoopTrap = 1000;
       Blockly.JavaScript.INFINITE_LOOP_TRAP =
           'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
-      var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
+      var code = Blockly.JavaScript.workspaceToCode(workspace);
       Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
       try {
         eval(code);
@@ -142,6 +169,30 @@
         alert(e);
       }
     }
+
+    // const createFlyout = function(workspace) {
+
+    //   let xmlList = [];
+    //   // Add your button and give it a callback name.
+    //   const button = document.createElement('button');
+    //   button.setAttribute('text', 'Create Typed Variable');
+    //   button.setAttribute('callbackKey', 'callbackName');
+
+    //   xmlList.push(button);
+
+    //   // This gets all the variables that the user creates and adds them to the
+    //   // flyout.
+    //   const blockList = Blockly.VariablesDynamic.flyoutCategoryBlocks(workspace);
+    //   console.log(blockList);
+    //   xmlList = xmlList.concat(blockList);
+    //   return xmlList;
+    // };
+
+    // workspace.registerToolboxCategoryCallback('CREATE_TYPED_VARIABLE', createFlyout);
+
+    // const typedVarModal = new TypedVariableModal(workspace, 'callbackName', [["INTEGER", "Integer"], ["FLOAT", "Float"]]);
+    // typedVarModal.init();
+
   </script>
 
 </body>

@@ -42,7 +42,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "variable": "%{BKY_VARIABLES_DEFAULT_NAME}"
       }
     ],
-    "output": null,
+    "output": null, // The output can be any type
     "style": "variable_blocks",
     "helpUrl": "%{BKY_VARIABLES_GET_HELPURL}",
     "tooltip": "%{BKY_VARIABLES_GET_TOOLTIP}",
@@ -59,7 +59,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "variable": "%{BKY_VARIABLES_DEFAULT_NAME}"
       },
       {
-        "type": "input_value",
+        "type": "input_value", // The input can be any type
         "name": "VALUE"
       }
     ],
