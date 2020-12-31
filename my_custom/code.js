@@ -1,7 +1,28 @@
+Blockly.JavaScript['variables_get_panda'] = function(block) {
+  console.log(block);
+  // console.log(Blockly.Workspace.getAllVariables());
+  return "xin du";
+};
+
+Blockly.JavaScript['variables_set_panda'] = function(block) {
+  console.log(block);
+  // console.log(Blockly.Workspace.getAllVariables());
+  return "hhhhjjjj";
+};
+
+
+
+
 Blockly.JavaScript['variables_get_dynamic'] = function(block) {
-  // console.log(block.getFieldValue("VAR").variabletype);
-  // // console.log(Blockly.Workspace.getAllVariables());
-  // return block + "hahah";
+  console.log(block);
+  // console.log(Blockly.Workspace.getAllVariables());
+  return block + "hahah444";
+};
+
+Blockly.JavaScript['variables_set_dynamic'] = function(block) {
+  console.log(block);
+  // console.log(Blockly.Workspace.getAllVariables());
+  return "haha444h";
 };
 
 Blockly.JavaScript['variables_get'] = function(block) {
@@ -19,7 +40,6 @@ Blockly.JavaScript['variables_set'] = function(block) {
       block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
   return varName + ' = ' + argument0 + ';\n';
 };
-
 
 Blockly.JavaScript['function_delay'] = function(block) {
   let valueInput = Blockly.JavaScript.valueToCode(block, 'INPUT', Blockly.JavaScript.ORDER_ATOMIC);

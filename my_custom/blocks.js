@@ -1,48 +1,49 @@
 Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
  // Block for Panda variable getter.
-//  {
-//     "type": "variables_get_panda",
-//     "message0": "%1",
-//     "args0": [
-//       {
-//         "type": "field_variable",
-//         "name": "VAR",
-//         "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-//         "variableTypes": ["Panda"],    // Specifies what types to put in the dropdown
-//         "defaultType": "Panda"
-//       }
-//     ],
-//     "output": "Panda",    // Returns a value of "Panda"
-//     "style": "variable_blocks",
-//     "helpUrl": "%{BKY_VARIABLES_GET_HELPURL}",
-//     "tooltip": "%{BKY_VARIABLES_GET_TOOLTIP}",
-//     "extensions": ["contextMenu_variableSetterGetter"]
-//   },
-//  // Block for Panda variable setter.
-//   {
-//     "type": "variables_set_panda",
-//     "message0": "%{BKY_VARIABLES_SET}",
-//     "args0": [
-//       {
-//         "type": "field_variable",
-//         "name": "VAR",
-//         "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
-//         "variableTypes": ["Panda"],
-//         "defaultType": "Panda"
-//       },
-//       {
-//         "type": "input_value",
-//         "name": "VALUE",
-//         "check": "Panda"    // Checks that the input value is of type "Panda"
-//       }
-//     ],
-//     "previousStatement": null,
-//     "nextStatement": null,
-//     "style": "variable_blocks",
-//     "tooltip": "%{BKY_VARIABLES_SET_TOOLTIP}",
-//     "helpUrl": "%{BKY_VARIABLES_SET_HELPURL}",
-//     "extensions": ["contextMenu_variableSetterGetter"]
-//   },
+ {
+    "type": "variables_get_panda",
+    "message0": "%1",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+        "variableTypes": ["Panda"],    // Specifies what types to put in the dropdown
+        "defaultType": "Panda"
+      }
+    ],
+    "output": "Panda",    // Returns a value of "Panda"
+    "style": "variable_blocks",
+    "helpUrl": "%{BKY_VARIABLES_GET_HELPURL}",
+    "tooltip": "%{BKY_VARIABLES_GET_TOOLTIP}",
+    "extensions": ["contextMenu_variableSetterGetter"]
+  },
+
+  {
+    "type": "variables_set_panda",
+    "message0": "%{BKY_VARIABLES_SET}",
+    "args0": [
+      {
+        "type": "field_variable",
+        "name": "VAR",
+        "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+        "variableTypes": ["Panda"],
+        "defaultType": "Panda"
+      },
+      {
+        "type": "input_value",
+        "name": "VALUE",
+        "check": "Panda"    // Checks that the input value is of type "Panda"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "variable_blocks",
+    "tooltip": "%{BKY_VARIABLES_SET_TOOLTIP}",
+    "helpUrl": "%{BKY_VARIABLES_SET_HELPURL}",
+    "extensions": ["contextMenu_variableSetterGetter"]
+  },
+
   {
     "type": "variables_get",
     "message0": "%1",
