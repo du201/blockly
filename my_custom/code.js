@@ -1,28 +1,62 @@
-Blockly.JavaScript['variables_get_panda'] = function(block) {
-  console.log(block);
-  // console.log(Blockly.Workspace.getAllVariables());
-  return "xin du";
+// Blockly.JavaScript['variables_get_bear'] = function(block) {
+//   console.log(block);
+//   // console.log(Blockly.Workspace.getAllVariables());
+//   return "bear get";
+// };
+
+// Blockly.JavaScript['variables_set_bear'] = function(block) {
+//   console.log(block);
+//   // console.log(Blockly.Workspace.getAllVariables());
+//   return "bear set";
+// };
+Blockly.JavaScript['function_serial_println'] = function(block) {
+  // Comparison operator.
+  let value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
+  return 'Serial.println(' + value + ');\n';
 };
 
-Blockly.JavaScript['variables_set_panda'] = function(block) {
-  console.log(block);
-  // console.log(Blockly.Workspace.getAllVariables());
-  return "hhhhjjjj";
+Blockly.JavaScript['function_analog_read'] = function(block) {
+  // Comparison operator.
+  let pinNum = Blockly.JavaScript.valueToCode(block, 'PIN_NUM', Blockly.JavaScript.ORDER_ATOMIC);
+  return ['analogRead(' + pinNum + ')', Blockly.JavaScript.ORDER_ATOMIC];
 };
 
-
-
-
-Blockly.JavaScript['variables_get_dynamic'] = function(block) {
-  console.log(block);
-  // console.log(Blockly.Workspace.getAllVariables());
-  return block + "hahah444";
+Blockly.JavaScript['port_lightsensor'] = function(block) {
+  return ['A6', Blockly.JavaScript.ORDER_ATOMIC];
 };
 
-Blockly.JavaScript['variables_set_dynamic'] = function(block) {
-  console.log(block);
-  // console.log(Blockly.Workspace.getAllVariables());
-  return "haha444h";
+Blockly.JavaScript['port_soundsensor'] = function(block) {
+  return ['A2', Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+Blockly.JavaScript['function_digitalwrite'] = function(block) {
+  // Comparison operator.
+  var operator = block.getFieldValue('VOLTAGE');
+  let pinNum = Blockly.JavaScript.valueToCode(block, 'PIN_NUM', Blockly.JavaScript.ORDER_ATOMIC);
+  return 'digitalWrite(' + pinNum + ', ' + operator + ');\n';
+};
+
+Blockly.JavaScript['function_pinmode'] = function(block) {
+  // Comparison operator.
+  var operator = block.getFieldValue('PIN_MODE');
+  let pinNum = Blockly.JavaScript.valueToCode(block, 'PIN_NUM', Blockly.JavaScript.ORDER_ATOMIC);
+  return 'pinMode(' + pinNum + ', ' + operator + ');\n';
+};
+
+Blockly.JavaScript['variables_get_int'] = function(block) {
+  // Variable getter.
+  var code = Blockly.JavaScript.variableDB_.getName(block.getFieldValue('VAR'),
+      Blockly.VARIABLE_CATEGORY_NAME);
+  return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
+Blockly.JavaScript['variables_set_int'] = function(block) {
+  // Variable setter.
+  var argument0 = Blockly.JavaScript.valueToCode(block, 'VALUE',
+      Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
+  var varName = Blockly.JavaScript.variableDB_.getName(
+      block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
+  return varName + ' = ' + argument0 + ';\n';
 };
 
 Blockly.JavaScript['variables_get'] = function(block) {
@@ -47,50 +81,12 @@ Blockly.JavaScript['function_delay'] = function(block) {
   return code;
 };
 
-Blockly.JavaScript['loop'] = function(block) {
+Blockly.JavaScript['function_loop'] = function(block) {
   let contentCode = Blockly.JavaScript.statementToCode(block, 'CONTENT');
   return "void loop() {\n" + contentCode + "}\n";
 };
 
-Blockly.JavaScript['setup'] = function(block) {
+Blockly.JavaScript['function_setup'] = function(block) {
   let contentCode = Blockly.JavaScript.statementToCode(block, 'CONTENT');
-  return "void setup() {\n" + contentCode + "}\n";
-};
-
-
-Blockly.JavaScript['controls_if'] = function(block) {
-  // If/elseif/else condition.
-  var n = 0;
-  var code = '', branchCode, conditionCode;
-  if (Blockly.JavaScript.STATEMENT_PREFIX) {
-    // Automatic prefix insertion is switched off for this block.  Add manually.
-    code += Blockly.JavaScript.injectId(Blockly.JavaScript.STATEMENT_PREFIX,
-        block);
-  }
-
-  do {
-    conditionCode = Blockly.JavaScript.valueToCode(block, 'IF' + n,
-        Blockly.JavaScript.ORDER_NONE) || 'false';
-    branchCode = Blockly.JavaScript.statementToCode(block, 'DO' + n);
-    if (Blockly.JavaScript.STATEMENT_SUFFIX) {
-      branchCode = Blockly.JavaScript.prefixLines(
-          Blockly.JavaScript.injectId(Blockly.JavaScript.STATEMENT_SUFFIX,
-          block), Blockly.JavaScript.INDENT) + branchCode;
-    }
-    code += (n > 0 ? ' else ' : '') +
-        'if (' + conditionCode + ') {\n' + branchCode + '}';
-    ++n;
-  } while (block.getInput('IF' + n));
-
-  if (block.getInput('ELSE') || Blockly.JavaScript.STATEMENT_SUFFIX) {
-    branchCode = Blockly.JavaScript.statementToCode(block, 'ELSE');
-    if (Blockly.JavaScript.STATEMENT_SUFFIX) {
-      branchCode = Blockly.JavaScript.prefixLines(
-          Blockly.JavaScript.injectId(Blockly.JavaScript.STATEMENT_SUFFIX,
-          block), Blockly.JavaScript.INDENT) + branchCode;
-    }
-    code += ' else {\n' + branchCode + '}';
-  }
-  
-  return code + '\n';
+  return "void setup() {\n" + contentCode + "  Serial.begin(9600);\n}\n";
 };

@@ -7,6 +7,16 @@
   <script src="../../blocks_compressed.js"></script>
   <script src="../../my_custom/blocks.js"></script>
   <script src="../../javascript_compressed.js"></script>
+  <!-- <script src="../../generators/javascript.js"></script>
+  <script src="../../generators/javascript/colour.js"></script>
+  <script src="../../generators/javascript/lists.js"></script>
+  <script src="../../generators/javascript/logic.js"></script>
+  <script src="../../generators/javascript/loops.js"></script>
+  <script src="../../generators/javascript/math.js"></script>
+  <script src="../../generators/javascript/procedures.js"></script>
+  <script src="../../generators/javascript/text.js"></script>
+  <script src="../../generators/javascript/variables_dynamic.js"></script>
+  <script src="../../generators/javascript/variables.js"></script> -->
   <script src="../../my_custom/code.js"></script>
   <script src="../../msg/js/en.js"></script>
   <script src="https://unpkg.com/@blockly/plugin-typed-variable-modal"></script>
@@ -35,39 +45,38 @@
     <button onclick="runCode()">Run JavaScript</button>
   </p>
 
-  <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+  <div id="blocklyDiv" style="height: 800px; width: 1000px;"></div>
 
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
-    <!-- <category name="Variables" custom="VARIABLE" colour="%{BKY_VARIABLES_HUE}">
-      <block type="vars_set">
-        <field name="VAR_SET" variabletype="panda"></field>
-      </block>
-    </category> -->
 
-    <category name="Variables" custom="VARIABLE">
-    </category>
-    <!-- <button text="A button" callbackKey="panda"></button> -->
-    <!-- <category name="Variables" custom="CREATE_TYPED_VARIABLE">
+    <!-- <category name="Functions" custom="PROCEDURE" colour="%{BKY_PROCEDURES_HUE}">
     </category> -->
-    <category name="Functions" custom="PROCEDURE" colour="%{BKY_PROCEDURES_HUE}">
-    </category>
-    <category name="Panda Variables" custom="PANDA">
-      <!-- <button text='Create Panda Variable' callbackKey='pandaCreate' id='panda123'></button> -->
-    </category>
+    <category name="Integer Variables" custom="INT" colour="%{BKY_MATH_HUE}"></category>
+    <!-- currently we only h->
+    <!-- <category name="Bear Variables" cave int type -ustom="BEAR"></category> -->
     <sep gap="100"></sep>
-    <category name="Logic" colour="%{BKY_LOGIC_HUE}">
-      <block type="setup" id="qwert"></block>
-      <block type="loop"></block>
+    <category name="Function" colour="%{BKY_LOGIC_HUE}">
+      <block type="function_digitalwrite"></block>
+      <block type="function_pinmode"></block>
+      <block type="function_setup"></block>
+      <block type="function_loop"></block>
       <block type="function_delay"></block>
-      <block type="controls_if"></block>
+      <block type="function_analog_read"></block>
+      <block type="function_serial_println"></block>
+      <!-- <block type="controls_if"></block>
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
       <block type="logic_negate"></block>
       <block type="logic_boolean"></block>
       <block type="variables_get"></block>
-      <block type="variables_set"></block>
+      <block type="variables_set"></block> -->
     </category>
-    <category name="Loops" colour="%{BKY_LOOPS_HUE}">
+    <category name="Logic" colour="%{BKY_LOGIC_HUE}">
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="controls_if"></block>
+    </category>
+    <!-- <category name="Loops" colour="%{BKY_LOOPS_HUE}">
       <block type="controls_repeat_ext">
         <value name="TIMES">
           <block type="math_number">
@@ -76,22 +85,26 @@
         </value>
       </block>
       <block type="controls_whileUntil"></block>
-    </category>
+    </category> -->
     <category name="Math" colour="%{BKY_MATH_HUE}">
       <block type="math_number">
         <field name="NUM">123</field>
       </block>
-      <block type="math_arithmetic"></block>
-      <block type="math_single"></block>
+      <!-- <block type="math_arithmetic"></block>
+      <block type="math_single"></block> -->
     </category>
-    <category name="Text" colour="%{BKY_TEXTS_HUE}">
+    <category name="Port Number" colour="%{BKY_MATH_HUE}">
+      <block type="port_lightsensor"></block>
+      <block type="port_soundsensor"></block>
+    </category>
+    <!-- <category name="Text" colour="%{BKY_TEXTS_HUE}">
       <block type="text"></block>
       <block type="text_length"></block>
       <block type="text_print"></block>
       <block type="procedures_defnoreturn"></block>
       <block type="procedures_defreturn"></block>
       <block type="procedures_callnoreturn"></block>
-    </category>
+    </category> -->
   </xml>
 
   <!-- <xml xmlns="https://developers.google.com/blockly/xml" id="startBlocks" style="display: none">
@@ -173,53 +186,113 @@
       }
     }
 
-    // const createFlyout = function(workspace) {
-
-    //   let xmlList = [];
-    //   // Add your button and give it a callback name.
-    //   const button = document.createElement('button');
-    //   button.setAttribute('text', 'Create Typed Variable');
-    //   button.setAttribute('callbackKey', 'callbackName');
-
-    //   xmlList.push(button);
-
-    //   // This gets all the variables that the user creates and adds them to the
-    //   // flyout. It is responsible for all the variables blocks appearing
-    //   const blockList = Blockly.VariablesDynamic.flyoutCategoryBlocks(workspace);
-    //   xmlList = xmlList.concat(blockList);
-    //   return xmlList;
-    // };
-
-    // workspace.registerToolboxCategoryCallback('CREATE_TYPED_VARIABLE', createFlyout);
-
-    // const typedVarModal = new TypedVariableModal(workspace, 'callbackName', [["INTEGER", "Integer"], ["FLOAT", "Float"]]);
-    // typedVarModal.init();
-
-    const createFlyoutPanda = function(workspace) {
+    // Panda Variable
+    const createFlyoutInt = function(workspace) {
 
       let xmlList = [];
       // Add your button and give it a callback name.
       const button = document.createElement('button');
-      button.setAttribute('text', 'Create Panda Variable');
-      button.setAttribute('callbackKey', 'pandaCreate');
-      button.setAttribute('id', 'panda123');
+      button.setAttribute('text', 'Create Integer Variable');
+      button.setAttribute('callbackKey', 'intCreate');
       xmlList.push(button); 
  
       // This gets all the variables that the user creates and adds them to the
-      // flyout. It is responsible for all the variables blocks appearing
-      const blockList = Blockly.VariablesDynamic.flyoutCategoryBlocks(workspace);
-      xmlList = xmlList.concat(blockList);
+      // flyout. It is responsible for all the variables of this specific type
+      let thisTypeVars = workspace.getVariablesOfType('int');
+      if (thisTypeVars.length > 0) {
+        if (Blockly.Blocks['variables_set_int']) {
+          let firstVariable = thisTypeVars[thisTypeVars.length - 1];
+          let gap = 24;
+          let blockText = '<xml>' +
+            '<block type="variables_set_int" gap="' + gap + '">' +
+            '<field name="VAR" variabletype="' + firstVariable.type + '" id="' + firstVariable.id + '">' +
+            firstVariable.name +
+            '</field>' +
+            '</block>' +
+            '</xml>';
+          let block = Blockly.Xml.textToDom(blockText).firstChild;
+          xmlList.push(block);
+        }
+        if (Blockly.Blocks['variables_get_int']) {
+          for (let i = 0; i < thisTypeVars.length; i++) {
+            let variable = thisTypeVars[i];
+            let blockText = '<xml>' +
+              '<block type="variables_get_int" gap="8">' +
+              '<field name="VAR" variabletype="' + variable.type + '" id="' + variable.id + '">' +
+              variable.name +
+              '</field>' +
+              '</block>' +
+              '</xml>';
+            let block = Blockly.Xml.textToDom(blockText).firstChild;
+            xmlList.push(block);
+          }
+        }
+      }
+
       return xmlList;
     };
     
-    workspace.registerToolboxCategoryCallback('PANDA', createFlyoutPanda);
-
-    // workspace.registerButtonCallback(
-    //     'pandaCreate', () => console.log("callback!"));
-        
-    const pandaButtonCallback = Blockly.Variables.createVariableButtonHandler(workspace, null, 'panda');
+    workspace.registerToolboxCategoryCallback('INT', createFlyoutInt);
     workspace.registerButtonCallback(
-        'pandaCreate', pandaButtonCallback);
+        'intCreate', 
+        function(button) {
+          Blockly.Variables.createVariable(button.getTargetWorkspace(), null, 'int');
+        }
+    );
+
+    // Bear Variable
+    // const createFlyoutBear = function(workspace) {
+
+    //   let xmlList = [];
+    //   // Add your button and give it a callback name.
+    //   const button = document.createElement('button');
+    //   button.setAttribute('text', 'Create Bear Variable');
+    //   button.setAttribute('callbackKey', 'bearCreate');
+    //   xmlList.push(button); 
+ 
+    //   // This gets all the variables that the user creates and adds them to the
+    //   // flyout. It is responsible for all the variables of this specific type
+    //   let thisTypeVars = workspace.getVariablesOfType('bear');
+    //   if (thisTypeVars.length > 0) {
+    //     if (Blockly.Blocks['variables_set_bear']) {
+    //       let firstVariable = thisTypeVars[thisTypeVars.length - 1];
+    //       let gap = 24;
+    //       let blockText = '<xml>' +
+    //         '<block type="variables_set_bear" gap="' + gap + '">' +
+    //         '<field name="VAR" variabletype="' + firstVariable.type + '" id="' + firstVariable.id + '">' +
+    //         firstVariable.name +
+    //         '</field>' +
+    //         '</block>' +
+    //         '</xml>';
+    //       let block = Blockly.Xml.textToDom(blockText).firstChild;
+    //       xmlList.push(block);
+    //     }
+    //     if (Blockly.Blocks['variables_get_bear']) {
+    //       for (let i = 0; i < thisTypeVars.length; i++) {
+    //         let variable = thisTypeVars[i];
+    //         let blockText = '<xml>' +
+    //           '<block type="variables_get_bear" gap="8">' +
+    //           '<field name="VAR" variabletype="' + variable.type + '" id="' + variable.id + '">' +
+    //           variable.name +
+    //           '</field>' +
+    //           '</block>' +
+    //           '</xml>';
+    //         let block = Blockly.Xml.textToDom(blockText).firstChild;
+    //         xmlList.push(block);
+    //       }
+    //     }
+    //   }
+
+    //   return xmlList;
+    // };
+    
+    // workspace.registerToolboxCategoryCallback('BEAR', createFlyoutBear);
+    // workspace.registerButtonCallback(
+    //     'bearCreate', 
+    //     function(button) {
+    //       Blockly.Variables.createVariable(button.getTargetWorkspace(), null, 'bear');
+    //     }
+    // );
   </script>
 
 </body>
