@@ -19,7 +19,6 @@
   <script src="../../generators/javascript/variables.js"></script> -->
   <script src="../../my_custom/code.js"></script>
   <script src="../../msg/js/en.js"></script>
-  <script src="https://unpkg.com/@blockly/plugin-typed-variable-modal"></script>
   <style>
     body {
       background-color: #fff;
@@ -48,12 +47,8 @@
   <div id="blocklyDiv" style="height: 800px; width: 1000px;"></div>
 
   <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
-
-    <!-- <category name="Functions" custom="PROCEDURE" colour="%{BKY_PROCEDURES_HUE}">
-    </category> -->
-    <category name="Integer Variables" custom="INT" colour="%{BKY_MATH_HUE}"></category>
-    <!-- currently we only h->
-    <!-- <category name="Bear Variables" cave int type -ustom="BEAR"></category> -->
+    <!-- Below is the original design that simulates real code line by line -->
+    <!-- <category name="Integer Variables" custom="INT" colour="%{BKY_MATH_HUE}"></category>
     <sep gap="100"></sep>
     <category name="Function" colour="%{BKY_LOGIC_HUE}">
       <block type="function_digitalwrite"></block>
@@ -63,48 +58,26 @@
       <block type="function_delay"></block>
       <block type="function_analog_read"></block>
       <block type="function_serial_println"></block>
-      <!-- <block type="controls_if"></block>
-      <block type="logic_compare"></block>
-      <block type="logic_operation"></block>
-      <block type="logic_negate"></block>
-      <block type="logic_boolean"></block>
-      <block type="variables_get"></block>
-      <block type="variables_set"></block> -->
     </category>
     <category name="Logic" colour="%{BKY_LOGIC_HUE}">
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
       <block type="controls_if"></block>
     </category>
-    <!-- <category name="Loops" colour="%{BKY_LOOPS_HUE}">
-      <block type="controls_repeat_ext">
-        <value name="TIMES">
-          <block type="math_number">
-            <field name="NUM">10</field>
-          </block>
-        </value>
-      </block>
-      <block type="controls_whileUntil"></block>
-    </category> -->
     <category name="Math" colour="%{BKY_MATH_HUE}">
       <block type="math_number">
         <field name="NUM">123</field>
       </block>
-      <!-- <block type="math_arithmetic"></block>
-      <block type="math_single"></block> -->
     </category>
     <category name="Port Number" colour="%{BKY_MATH_HUE}">
       <block type="port_lightsensor"></block>
       <block type="port_soundsensor"></block>
-    </category>
-    <!-- <category name="Text" colour="%{BKY_TEXTS_HUE}">
-      <block type="text"></block>
-      <block type="text_length"></block>
-      <block type="text_print"></block>
-      <block type="procedures_defnoreturn"></block>
-      <block type="procedures_defreturn"></block>
-      <block type="procedures_callnoreturn"></block>
     </category> -->
+    <block type="setup_loop"></block>
+    <block type="connect_part_to_pin"></block>
+    <block type="function_pinmode"></block>
+    <block type="function_delay"></block>
+    <block type="digital_write"></block>
   </xml>
 
   <!-- <xml xmlns="https://developers.google.com/blockly/xml" id="startBlocks" style="display: none">
@@ -157,7 +130,23 @@
   </xml> -->
 
   <script>
-    
+    function copyStringToClipboard (str) {
+      // Create new element
+      var el = document.createElement('textarea');
+      // Set value (string to be copied)
+      el.value = str;
+      // Set non-editable to avoid focus and move outside of view
+      el.setAttribute('readonly', '');
+      el.style = {position: 'absolute', left: '-9999px'};
+      document.body.appendChild(el);
+      // Select text inside element
+      el.select();
+      // Copy text to clipboard
+      document.execCommand('copy');
+      // Remove temporary element
+      document.body.removeChild(el);
+    }
+
     var workspace = Blockly.inject('blocklyDiv',
         { media: '../../media/',
          toolbox: document.getElementById('toolbox')});
@@ -169,7 +158,9 @@
       // Generate JavaScript code and display it.
       Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
       var code = Blockly.JavaScript.workspaceToCode(workspace);
-      alert(code);
+      alert("Your code has been copied to clipboard.");
+      copyStringToClipboard(code);
+
     }
 
     function runCode() {

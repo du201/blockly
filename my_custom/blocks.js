@@ -1,4 +1,103 @@
 Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
+  {
+    "type": "digital_write",
+    "message0": "(digital write) %1 set pin %2 to output %3",
+    "args0": [
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": [
+          [
+            "D4",
+            "D4"
+          ],
+          [
+            "A6",
+            "A6"
+          ],
+          [
+            "A2",
+            "A2"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "LOW_HIGH",
+        "options": [
+          [
+            "low",
+            "LOW"
+          ],
+          [
+            "high",
+            "HIGH"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 230,
+    "tooltip": "",
+    "helpUrl": ""
+  }
+  ,{
+    "type": "connect_part_to_pin",
+    "message0": "connect %1 to pin %2",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "PART",
+        "options": [
+          [
+            "LED",
+            "LED"
+          ],
+          [
+            "Light Sensor",
+            "LIGHT_SENSOR"
+          ],
+          [
+            "Sound Sensor",
+            "SOUND_SENSOR"
+          ]
+        ]
+      },
+      {
+        "type": "field_dropdown",
+        "name": "PIN",
+        "options": [
+          [
+            "D4",
+            "D4"
+          ],
+          [
+            "A6",
+            "A6"
+          ],
+          [
+            "A2",
+            "A2"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 230,
+    "tooltip": "",
+    "helpUrl": ""
+  },
+
+
+
+
+
+
  // Blocks for Bear variable.
 //  {
 //     "type": "variables_get_bear",
@@ -132,37 +231,52 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
 
  // Block for pinMode function
  {
-    "type": "function_pinmode",
-    "message0": "set pin %1 to %2",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "PIN_NUM",
-        "check": "int",
-        "align": "CENTRE"
-      },
-      {
-        "type": "field_dropdown",
-        "name": "PIN_MODE",
-        "options": [
-          [
-            "output",
-            "OUTPUT"
-          ],
-          [
-            "input",
-            "INPUT"
-          ]
+  "type": "function_pinmode",
+  "message0": "set pin %1 %2 to %3",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "PIN",
+      "options": [
+        [
+          "D4",
+          "D4"
+        ],
+        [
+          "A6",
+          "A6"
+        ],
+        [
+          "A2",
+          "A2"
         ]
-      }
-    ],
-    "inputsInline": true,
-    "previousStatement": null,
-    "nextStatement": null,
-    "colour": 230,
-    "tooltip": "",
-    "helpUrl": ""
-  },
+      ]
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "PIN_MODE",
+      "options": [
+        [
+          "output",
+          "OUTPUT"
+        ],
+        [
+          "input",
+          "INPUT"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
  // Blocks for Panda variable.
  {
     "type": "variables_get_int",
@@ -262,6 +376,37 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "helpUrl": "%{BKY_VARIABLES_SET_HELPURL}",
     "extensions": ["contextMenu_variableSetterGetter"]
   },
+  {
+    "type": "setup_loop",
+    "message0": "connect %1 %2 setup %3 %4 loop %5 %6",
+    "args0": [
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "CONNECT_CONTENT"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "SETUP_CONTENT"
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "LOOP_CONTENT"
+      }
+    ],
+    "inputsInline": false,
+    "colour": 230,
+    "tooltip": "",
+    "helpUrl": ""
+  },
   // Loop function
   {
     "type": "function_loop",
@@ -283,12 +428,14 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
   // Delay function
   {
     "type": "function_delay",
-    "message0": "delay %1 millisecond(s)",
+    "message0": "delay %1 second(s)",
     "args0": [
       {
-        "type": "input_value",
-        "name": "INPUT",
-        "check": "int"
+        "type": "field_number",
+        "name": "DELAY_TIME",
+        "value": 0,
+        "min": 0.1,
+        "max": 10
       }
     ],
     "inputsInline": true,
@@ -312,6 +459,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
       }
     ],
     "inputsInline": false,
+    "nextStatement": null,
     "colour": 230,
     "tooltip": "",
     "helpUrl": ""

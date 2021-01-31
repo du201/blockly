@@ -9,6 +9,66 @@
 //   // console.log(Blockly.Workspace.getAllVariables());
 //   return "bear set";
 // };
+let check = {"4": null, "A6": null, "A2": null};
+
+Blockly.JavaScript['digital_write'] = function(block) {
+  let low_high = block.getFieldValue('LOW_HIGH');
+  let dropdown_pin = block.getFieldValue('PIN');
+
+  let pinName = "";
+  switch (dropdown_pin) {
+    case "D4":
+      pinName = "4";
+      break;
+    case "A6":
+      pinName = "A6";
+      break;
+    case "A2":
+      pinName = "A2";
+      break;
+  }
+
+  var code = 'digitalWrite(' + check[pinName] + ', ' + low_high + ');\n';
+  return code;
+};
+
+Blockly.JavaScript['connect_part_to_pin'] = function(block) {
+  let dropdown_part = block.getFieldValue('PART');
+  let dropdown_pin = block.getFieldValue('PIN');
+
+  let varName = "";
+  switch (dropdown_part) {
+    case "LED":
+      varName = "ledPin";
+      break;
+    case "LIGHT_SENSOR":
+      varName = "lightSensorPin";
+      break;
+    case "SOUND_SENSOR":
+      varName = "soundSensorPin";
+      break;
+  }
+
+  let pinName = "";
+  switch (dropdown_pin) {
+    case "D4":
+      pinName = "4";
+      break;
+    case "A6":
+      pinName = "A6";
+      break;
+    case "A2":
+      pinName = "A2";
+      break;
+  }
+  
+  check[pinName] = varName;
+
+  var code = "int " + varName + " = " + pinName + ";\n";
+  return code;
+};
+
+// Below are the original blocks
 Blockly.JavaScript['function_serial_println'] = function(block) {
   // Comparison operator.
   let value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
@@ -36,11 +96,29 @@ Blockly.JavaScript['function_digitalwrite'] = function(block) {
   return 'digitalWrite(' + pinNum + ', ' + operator + ');\n';
 };
 
+
+/**
+ * 
+ * The global variable check is used to sync function_pinmode with connect_part_pin 
+ */
 Blockly.JavaScript['function_pinmode'] = function(block) {
   // Comparison operator.
-  var operator = block.getFieldValue('PIN_MODE');
-  let pinNum = Blockly.JavaScript.valueToCode(block, 'PIN_NUM', Blockly.JavaScript.ORDER_ATOMIC);
-  return 'pinMode(' + pinNum + ', ' + operator + ');\n';
+  let operator = block.getFieldValue('PIN_MODE');
+  let dropdown_pin = block.getFieldValue('PIN');
+  let pinName = "";
+  switch (dropdown_pin) {
+    case "D4":
+      pinName = "4";
+      break;
+    case "A6":
+      pinName = "A6";
+      break;
+    case "A2":
+      pinName = "A2";
+      break;
+  }
+
+  return 'pinMode(' + check[pinName] + ', ' + operator + ');\n';
 };
 
 Blockly.JavaScript['variables_get_int'] = function(block) {
@@ -76,8 +154,8 @@ Blockly.JavaScript['variables_set'] = function(block) {
 };
 
 Blockly.JavaScript['function_delay'] = function(block) {
-  let valueInput = Blockly.JavaScript.valueToCode(block, 'INPUT', Blockly.JavaScript.ORDER_ATOMIC);
-  var code = "delay(" + valueInput + ");\n";
+  let delayTime = block.getFieldValue('DELAY_TIME');
+  var code = "delay(" + parseFloat(delayTime) * 1000 + ");\n";
   return code;
 };
 
@@ -89,4 +167,11 @@ Blockly.JavaScript['function_loop'] = function(block) {
 Blockly.JavaScript['function_setup'] = function(block) {
   let contentCode = Blockly.JavaScript.statementToCode(block, 'CONTENT');
   return "void setup() {\n" + contentCode + "  Serial.begin(9600);\n}\n";
+};
+
+Blockly.JavaScript['setup_loop'] = function(block) {
+  let connectCode = Blockly.JavaScript.statementToCode(block, 'CONNECT_CONTENT');
+  let setupCode = Blockly.JavaScript.statementToCode(block, 'SETUP_CONTENT');
+  let loopCode = Blockly.JavaScript.statementToCode(block, 'LOOP_CONTENT');
+  return connectCode + "void setup() {\n" + setupCode + "  Serial.begin(9600);\n}\nvoid loop() {\n" + loopCode + "\n}";
 };
